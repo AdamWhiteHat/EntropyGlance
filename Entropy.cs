@@ -68,6 +68,8 @@ namespace EntropyGlance
                 DistributionDict[bite]++;
             }
 
+            bytes = null;
+
             foreach (KeyValuePair<byte, int> entry in DistributionDict)
             {
                 // Probability = Freq of symbol / # symbols examined thus far
