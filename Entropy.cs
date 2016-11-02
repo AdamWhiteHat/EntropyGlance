@@ -98,14 +98,15 @@ namespace EntropyGlance
                 distribution[bite]++;
             }
 
-            double result = 0;
+            double value = 0;
+            double result = 0;            
             foreach (KeyValuePair<byte, int> entry in distribution)
             {
-                double value = (entry.Value / (double)chunkSize);
+                value = (entry.Value / (double)chunkSize);
                 result += (value * Math.Log(value, 2)) * -1;
             }
 
-            return result / Math.Log(2);
+            return result / Math.Log(byte.MaxValue + 1, 2);
         }
 
         private void CalculateEntropy()
