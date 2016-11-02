@@ -15,11 +15,15 @@ namespace EntropyGlance
     {
         public string Filename { get; set; }
 
+        private FileInfo currentFile;
+        private DataEntropyUTF8 currentEntropy;
         private string initialDirectory = "";
 
         public MainForm()
         {
             InitializeComponent();
+            btnByteDetails.Enabled = false;
+            btnFileDetails.Enabled = false;
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -48,20 +52,45 @@ namespace EntropyGlance
 
         public void LoadFile(FileInfo file)
         {
+            currentFile = file;
+            tbFilePath.Text = file.FullName;
+            btnByteDetails.Enabled = true;
+
+            Int64 chunks = file.Length / FileDetails.DefaultChunkLength;
+            if (chunks < 20)
+            {
+                btnFileDetails.Enabled = false;
+            }
+            else
+            {
+                btnFileDetails.Enabled = true;
+            }
+
             progressBarCompression.Value = 0;
             progressBarEntropy.Value = 0;
 
-            DataEntropyUTF8 entropy = new DataEntropyUTF8(file);
+            currentEntropy = new DataEntropyUTF8(file);
 
-            tbShannonSpecific.Text = entropy.ShannonSpecificEntropy.ToString("###0.###");
-            tbShannonNormalized.Text = entropy.NormalizedShannonSpecificEntropy.ToString("###0.###");
-            tbAbsolute.Text = entropy.AbsoluteEntropy.ToString("###,###,###,##0.###");
-            tbAbsoluteNormalized.Text = entropy.NormalizedAbsoluteEntropy.ToString("###,###,###,##0.###");
-            tbCompression.Text = entropy.CompressionEntropy.ToString("##0.#");
+            tbShannonSpecific.Text = currentEntropy.ShannonSpecificEntropy.ToString("###0.###");
+            tbShannonNormalized.Text = currentEntropy.NormalizedShannonSpecificEntropy.ToString("###0.###");
+            tbAbsolute.Text = currentEntropy.AbsoluteEntropy.ToString("###,###,###,##0.###");
+            tbAbsoluteNormalized.Text = currentEntropy.NormalizedAbsoluteEntropy.ToString("###,###,###,##0.###");
+            tbCompression.Text = currentEntropy.CompressionEntropy.ToString("##0.#");
 
-            progressBarCompression.Value = (int)entropy.CompressionEntropy;
-            progressBarEntropy.Value = (int)(entropy.ShannonSpecificEntropy * 100);
+            progressBarCompression.Value = (int)currentEntropy.CompressionEntropy;
+            progressBarEntropy.Value = (int)(currentEntropy.ShannonSpecificEntropy * 100);
         }
 
+        private void btnByteDetails_Click(object sender, EventArgs e)
+        {
+            ByteDetails byteDetailsForm = new ByteDetails(currentEntropy);
+            byteDetailsForm.ShowDialog();
+        }
+
+        private void btnFileDetails_Click(object sender, EventArgs e)
+        {
+            FileDetails fileDetailsForm = new FileDetails(currentFile);
+            fileDetailsForm.ShowDialog();
+        }
     }
 }

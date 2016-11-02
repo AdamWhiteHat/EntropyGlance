@@ -111,7 +111,7 @@ namespace EntropyGlance
             distribution.Clear();
             distribution = null;
 
-            return (result / Math.Log(byte.MaxValue + 1, 2));
+            return result;//(result / Math.Log(byte.MaxValue + 1, 2));
         }
 
         private void CalculateEntropy()

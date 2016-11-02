@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ByteDetails.Designer.cs">
+      <DependentUpon>ByteDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entropy.cs" />
+    <Compile Include="FileDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileDetails.Designer.cs">
+      <DependentUpon>FileDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +68,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ByteDetails.resx">
+      <DependentUpon>ByteDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileDetails.resx">
+      <DependentUpon>FileDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -16,7 +16,8 @@ namespace EntropyGlance
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form mainForm = new MainForm();
+
+            MainForm mainForm = new MainForm();
 
             if (
                    args != null
@@ -25,8 +26,8 @@ namespace EntropyGlance
                 && System.IO.File.Exists(args[0])
                )
             {
-
-            }
+                mainForm.Filename = args[0];
+            }           
 
             Application.Run(mainForm);
         }
