@@ -53,7 +53,7 @@
             // btnBrowse
             // 
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Location = new System.Drawing.Point(550, 12);
+            this.btnBrowse.Location = new System.Drawing.Point(512, 12);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 0;
@@ -81,7 +81,7 @@
             // tbShannonNormalized
             // 
             this.tbShannonNormalized.Enabled = false;
-            this.tbShannonNormalized.Location = new System.Drawing.Point(226, 35);
+            this.tbShannonNormalized.Location = new System.Drawing.Point(226, 31);
             this.tbShannonNormalized.Name = "tbShannonNormalized";
             this.tbShannonNormalized.Size = new System.Drawing.Size(100, 20);
             this.tbShannonNormalized.TabIndex = 4;
@@ -89,7 +89,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 38);
+            this.label2.Location = new System.Drawing.Point(26, 34);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(194, 13);
             this.label2.TabIndex = 3;
@@ -99,7 +99,7 @@
             // tbAbsolute
             // 
             this.tbAbsolute.Enabled = false;
-            this.tbAbsolute.Location = new System.Drawing.Point(226, 61);
+            this.tbAbsolute.Location = new System.Drawing.Point(226, 53);
             this.tbAbsolute.Name = "tbAbsolute";
             this.tbAbsolute.Size = new System.Drawing.Size(100, 20);
             this.tbAbsolute.TabIndex = 6;
@@ -107,7 +107,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(130, 64);
+            this.label3.Location = new System.Drawing.Point(130, 56);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(90, 13);
             this.label3.TabIndex = 5;
@@ -117,7 +117,7 @@
             // tbAbsoluteNormalized
             // 
             this.tbAbsoluteNormalized.Enabled = false;
-            this.tbAbsoluteNormalized.Location = new System.Drawing.Point(226, 87);
+            this.tbAbsoluteNormalized.Location = new System.Drawing.Point(226, 75);
             this.tbAbsoluteNormalized.Name = "tbAbsoluteNormalized";
             this.tbAbsoluteNormalized.Size = new System.Drawing.Size(100, 20);
             this.tbAbsoluteNormalized.TabIndex = 8;
@@ -125,7 +125,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(69, 90);
+            this.label4.Location = new System.Drawing.Point(69, 78);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(151, 13);
             this.label4.TabIndex = 7;
@@ -135,7 +135,7 @@
             // tbCompression
             // 
             this.tbCompression.Enabled = false;
-            this.tbCompression.Location = new System.Drawing.Point(226, 113);
+            this.tbCompression.Location = new System.Drawing.Point(226, 97);
             this.tbCompression.Name = "tbCompression";
             this.tbCompression.Size = new System.Drawing.Size(100, 20);
             this.tbCompression.TabIndex = 10;
@@ -143,7 +143,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(122, 116);
+            this.label5.Location = new System.Drawing.Point(122, 100);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(98, 13);
             this.label5.TabIndex = 9;
@@ -162,7 +162,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(332, 38);
+            this.label7.Location = new System.Drawing.Point(332, 34);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(153, 13);
             this.label7.TabIndex = 12;
@@ -171,7 +171,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(332, 64);
+            this.label8.Location = new System.Drawing.Point(332, 56);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(23, 13);
             this.label8.TabIndex = 13;
@@ -180,7 +180,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(332, 90);
+            this.label9.Location = new System.Drawing.Point(332, 78);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(42, 13);
             this.label9.TabIndex = 14;
@@ -189,7 +189,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(332, 116);
+            this.label10.Location = new System.Drawing.Point(332, 100);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(174, 13);
             this.label10.TabIndex = 15;
@@ -197,23 +197,28 @@
             // 
             // progressBarEntropy
             // 
-            this.progressBarEntropy.Location = new System.Drawing.Point(5, 194);
+            this.progressBarEntropy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarEntropy.Location = new System.Drawing.Point(5, 176);
             this.progressBarEntropy.Maximum = 800;
             this.progressBarEntropy.Name = "progressBarEntropy";
-            this.progressBarEntropy.Size = new System.Drawing.Size(627, 20);
+            this.progressBarEntropy.Size = new System.Drawing.Size(589, 20);
             this.progressBarEntropy.TabIndex = 16;
             // 
             // progressBarCompression
             // 
-            this.progressBarCompression.Location = new System.Drawing.Point(5, 157);
+            this.progressBarCompression.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarCompression.Location = new System.Drawing.Point(5, 139);
             this.progressBarCompression.Name = "progressBarCompression";
-            this.progressBarCompression.Size = new System.Drawing.Size(627, 20);
+            this.progressBarCompression.Size = new System.Drawing.Size(589, 20);
             this.progressBarCompression.TabIndex = 17;
             // 
             // label11
             // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(0, 179);
+            this.label11.Location = new System.Drawing.Point(0, 161);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(91, 13);
             this.label11.TabIndex = 18;
@@ -221,8 +226,9 @@
             // 
             // label12
             // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(0, 142);
+            this.label12.Location = new System.Drawing.Point(0, 124);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(93, 13);
             this.label12.TabIndex = 19;
@@ -232,7 +238,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 220);
+            this.ClientSize = new System.Drawing.Size(599, 202);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.progressBarCompression);
@@ -253,6 +259,7 @@
             this.Controls.Add(this.tbShannonSpecific);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBrowse);
+            this.MinimumSize = new System.Drawing.Size(615, 240);
             this.Name = "MainForm";
             this.Text = "Entropy at a glance";
             this.Shown += new System.EventHandler(this.MainForm_Shown);
