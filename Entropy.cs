@@ -114,12 +114,17 @@ namespace EntropyGlance
             {
                 // Entropy = probability * Log2(1/probability) : OveralEntropy += entry.Value * Math.Log((1 / entry.Value), 2);
                 // Shannon (specific) entropy = -1*sum(probability * ln(probability))
-                ShannonSpecificEntropy += (entry.Value * Math.Log(entry.Value, 2)) * -1;
+                ShannonSpecificEntropy += ((entry.Value * Math.Log(entry.Value, 2)) * -1);
             }
 
-            NormalizedShannonSpecificEntropy = ShannonSpecificEntropy / Math.Log(2);
+            if(ShannonSpecificEntropy > 8)
+            {
+                ShannonSpecificEntropy = 8;
+            }
+
+            NormalizedShannonSpecificEntropy = ShannonSpecificEntropy / Math.Log(byte.MaxValue + 1, 2);
             AbsoluteEntropy = ShannonSpecificEntropy * DataSampleSize;
-            NormalizedAbsoluteEntropy = AbsoluteEntropy / Math.Log(2);
+            NormalizedAbsoluteEntropy = AbsoluteEntropy / Math.Log(byte.MaxValue + 1, 2);
         }
 
         private void CalculateCompressionEntropy(FileInfo file)
@@ -142,11 +147,18 @@ namespace EntropyGlance
                 string errorMessage = ex.ToString();
                 
             }
-
-
+            
             FileInfo compressedFI = new FileInfo(compressedFilename);
 
             double result = (double)compressedFI.Length / (double)file.Length;
+
+            result = result * 100;
+
+            if (result > 100)
+            {
+                result = 100;
+            }
+
             CompressionEntropy = result;
         }
 

@@ -48,28 +48,19 @@ namespace EntropyGlance
 
         public void LoadFile(FileInfo file)
         {
+            progressBarCompression.Value = 0;
+            progressBarEntropy.Value = 0;
+
             DataEntropyUTF8 entropy = new DataEntropyUTF8(file);
 
             tbShannonSpecific.Text = entropy.ShannonSpecificEntropy.ToString("###0.###");
             tbShannonNormalized.Text = entropy.NormalizedShannonSpecificEntropy.ToString("###0.###");
             tbAbsolute.Text = entropy.AbsoluteEntropy.ToString("###,###,###,##0.###");
             tbAbsoluteNormalized.Text = entropy.NormalizedAbsoluteEntropy.ToString("###,###,###,##0.###");
-            tbCompression.Text = (entropy.CompressionEntropy * 100).ToString("##0.###");
-            
-            int compression = (int)(entropy.CompressionEntropy * 100);
-            if (compression > 100)
-            {
-                compression = 100;
-            }
+            tbCompression.Text = entropy.CompressionEntropy.ToString("##0.###");
 
-            int shannon = (int)(entropy.ShannonSpecificEntropy * 100);
-            if (shannon > 800)
-            {
-                shannon = 800;
-            }
-
-            progressBarCompression.Value = compression;
-            progressBarEntropy.Value = shannon;
+            progressBarCompression.Value = (int)entropy.CompressionEntropy;
+            progressBarEntropy.Value = (int)(entropy.ShannonSpecificEntropy * 100);
         }
 
     }
