@@ -57,7 +57,7 @@ namespace EntropyGlance
             tbShannonNormalized.Text = entropy.NormalizedShannonSpecificEntropy.ToString("###0.###");
             tbAbsolute.Text = entropy.AbsoluteEntropy.ToString("###,###,###,##0.###");
             tbAbsoluteNormalized.Text = entropy.NormalizedAbsoluteEntropy.ToString("###,###,###,##0.###");
-            tbCompression.Text = entropy.CompressionEntropy.ToString("##0.###");
+            tbCompression.Text = entropy.CompressionEntropy.ToString("##0.#");
 
             progressBarCompression.Value = (int)entropy.CompressionEntropy;
             progressBarEntropy.Value = (int)(entropy.ShannonSpecificEntropy * 100);

@@ -99,14 +99,17 @@ namespace EntropyGlance
             }
 
             double value = 0;
-            double result = 0;            
+            double result = 0;
             foreach (KeyValuePair<byte, int> entry in distribution)
             {
                 value = (entry.Value / (double)chunkSize);
                 result += (value * Math.Log(value, 2)) * -1;
             }
 
-            return result / Math.Log(byte.MaxValue + 1, 2);
+            distribution.Clear();
+            distribution = null;
+
+            return (result / Math.Log(byte.MaxValue + 1, 2));
         }
 
         private void CalculateEntropy()
@@ -118,7 +121,7 @@ namespace EntropyGlance
                 ShannonSpecificEntropy += ((entry.Value * Math.Log(entry.Value, 2)) * -1);
             }
 
-            if(ShannonSpecificEntropy > 8)
+            if (ShannonSpecificEntropy > 8)
             {
                 ShannonSpecificEntropy = 8;
             }
@@ -132,33 +135,26 @@ namespace EntropyGlance
         {
             string compressedFilename = Path.GetTempFileName();
 
-            try
+            using (FileStream stream = new FileStream(compressedFilename, FileMode.Open))
             {
-                using (FileStream stream = new FileStream(compressedFilename, FileMode.Open))
+                using (GZipStream gzip = new GZipStream(stream, CompressionMode.Compress))
                 {
-                    using (GZipStream gzip = new GZipStream(stream,
-                    CompressionMode.Compress, true))
-                    {
-                        gzip.Write(File.ReadAllBytes(file.FullName), 0, (int)file.Length);
-                    }
+                    gzip.Write(File.ReadAllBytes(file.FullName), 0, (int)file.Length);
                 }
             }
-            catch(Exception ex)
-            {
-                string errorMessage = ex.ToString();
-                
-            }
-            
+
             FileInfo compressedFI = new FileInfo(compressedFilename);
 
             double result = (double)compressedFI.Length / (double)file.Length;
-
             result = result * 100;
 
             if (result > 100)
             {
                 result = 100;
             }
+
+            compressedFI.Delete();
+            compressedFI = null;
 
             CompressionEntropy = result;
         }
