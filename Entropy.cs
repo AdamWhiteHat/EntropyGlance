@@ -26,7 +26,7 @@ namespace EntropyGlance
 
         public DataEntropyUTF8()
         {
-            this.Clear();
+            this.Clear(); 
         }
 
         public DataEntropyUTF8(FileInfo file)

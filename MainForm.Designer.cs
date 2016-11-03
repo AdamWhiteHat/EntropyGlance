@@ -43,15 +43,15 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.tbFilePath = new System.Windows.Forms.TextBox();
-            this.btnByteDetails = new System.Windows.Forms.Button();
-            this.btnFileDetails = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.tbAbsolute = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.tbAbsoluteNormalized = new System.Windows.Forms.TextBox();
+            this.tbFilePath = new System.Windows.Forms.TextBox();
+            this.btnByteDetails = new System.Windows.Forms.Button();
+            this.btnFileDetails = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -151,9 +151,11 @@
             this.progressBarEntropy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBarEntropy.Location = new System.Drawing.Point(5, 165);
+            this.progressBarEntropy.MarqueeAnimationSpeed = 1;
             this.progressBarEntropy.Maximum = 800;
             this.progressBarEntropy.Name = "progressBarEntropy";
             this.progressBarEntropy.Size = new System.Drawing.Size(629, 20);
+            this.progressBarEntropy.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBarEntropy.TabIndex = 16;
             // 
             // progressBarCompression
@@ -161,8 +163,10 @@
             this.progressBarCompression.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBarCompression.Location = new System.Drawing.Point(5, 128);
+            this.progressBarCompression.MarqueeAnimationSpeed = 1;
             this.progressBarCompression.Name = "progressBarCompression";
             this.progressBarCompression.Size = new System.Drawing.Size(629, 20);
+            this.progressBarCompression.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBarCompression.TabIndex = 17;
             // 
             // label11
@@ -206,38 +210,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(488, 74);
             this.panel1.TabIndex = 20;
-            // 
-            // tbFilePath
-            // 
-            this.tbFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFilePath.Location = new System.Drawing.Point(5, 7);
-            this.tbFilePath.Name = "tbFilePath";
-            this.tbFilePath.Size = new System.Drawing.Size(551, 20);
-            this.tbFilePath.TabIndex = 21;
-            // 
-            // btnByteDetails
-            // 
-            this.btnByteDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnByteDetails.Location = new System.Drawing.Point(497, 58);
-            this.btnByteDetails.Name = "btnByteDetails";
-            this.btnByteDetails.Size = new System.Drawing.Size(137, 23);
-            this.btnByteDetails.TabIndex = 22;
-            this.btnByteDetails.Text = "View per-byte details...";
-            this.btnByteDetails.UseVisualStyleBackColor = true;
-            this.btnByteDetails.Visible = false;
-            this.btnByteDetails.Click += new System.EventHandler(this.btnByteDetails_Click);
-            // 
-            // btnFileDetails
-            // 
-            this.btnFileDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFileDetails.Location = new System.Drawing.Point(497, 32);
-            this.btnFileDetails.Name = "btnFileDetails";
-            this.btnFileDetails.Size = new System.Drawing.Size(137, 23);
-            this.btnFileDetails.TabIndex = 23;
-            this.btnFileDetails.Text = "View file entropy details...";
-            this.btnFileDetails.UseVisualStyleBackColor = true;
-            this.btnFileDetails.Click += new System.EventHandler(this.btnFileDetails_Click);
             // 
             // label3
             // 
@@ -298,6 +270,37 @@
             this.tbAbsoluteNormalized.Size = new System.Drawing.Size(100, 20);
             this.tbAbsoluteNormalized.TabIndex = 19;
             this.tbAbsoluteNormalized.Visible = false;
+            // 
+            // tbFilePath
+            // 
+            this.tbFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbFilePath.Location = new System.Drawing.Point(5, 7);
+            this.tbFilePath.Name = "tbFilePath";
+            this.tbFilePath.Size = new System.Drawing.Size(551, 20);
+            this.tbFilePath.TabIndex = 21;
+            // 
+            // btnByteDetails
+            // 
+            this.btnByteDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnByteDetails.Location = new System.Drawing.Point(497, 32);
+            this.btnByteDetails.Name = "btnByteDetails";
+            this.btnByteDetails.Size = new System.Drawing.Size(137, 23);
+            this.btnByteDetails.TabIndex = 22;
+            this.btnByteDetails.Text = "View per-byte details...";
+            this.btnByteDetails.UseVisualStyleBackColor = true;
+            this.btnByteDetails.Click += new System.EventHandler(this.btnByteDetails_Click);
+            // 
+            // btnFileDetails
+            // 
+            this.btnFileDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFileDetails.Location = new System.Drawing.Point(497, 55);
+            this.btnFileDetails.Name = "btnFileDetails";
+            this.btnFileDetails.Size = new System.Drawing.Size(137, 23);
+            this.btnFileDetails.TabIndex = 23;
+            this.btnFileDetails.Text = "View file entropy details...";
+            this.btnFileDetails.UseVisualStyleBackColor = true;
+            this.btnFileDetails.Click += new System.EventHandler(this.btnFileDetails_Click);
             // 
             // MainForm
             // 
