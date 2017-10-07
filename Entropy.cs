@@ -1,174 +1,188 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.IO.Compression;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace EntropyGlance
 {
-    public class DataEntropyUTF8
-    {
-        // Stores the number of times each symbol appears
-        public SortedDictionary<byte, int> DistributionDict { get; private set; }
-        // Stores the entropy for each character
-        public SortedDictionary<byte, double> ProbabilityDict { get; private set; }
+	public class DataEntropyUTF8
+	{
+		// Stores the number of times each symbol appears
+		public SortedDictionary<byte, int> DistributionDict { get; private set; }
+		// Stores the entropy for each character
+		public SortedDictionary<byte, double> ProbabilityDict { get; private set; }
 
-        public int DataSampleSize { get; private set; }
-        public int UniqueSymbols { get { return DistributionDict.Count; } }
+		public int DataSampleSize { get; private set; }
+		public int UniqueSymbols { get { return DistributionDict.Count; } }
 
-        public double AbsoluteEntropy { get; private set; }
-        public double ShannonSpecificEntropy { get; private set; }
-        public double NormalizedAbsoluteEntropy { get; private set; }
-        public double NormalizedShannonSpecificEntropy { get; private set; }
-        public double CompressionEntropy { get; private set; }
+		public double AbsoluteEntropy { get; private set; }
+		public double ShannonSpecificEntropy { get; private set; }
+		public double NormalizedAbsoluteEntropy { get; private set; }
+		public double NormalizedShannonSpecificEntropy { get; private set; }
+		public double CompressionEntropy { get; private set; }
 
-        public DataEntropyUTF8()
-        {
-            this.Clear(); 
-        }
+		public DataEntropyUTF8(FileInfo file)
+		{
+			this.Clear();
 
-        public DataEntropyUTF8(FileInfo file)
-            : this()
-        {
-            if (file.Exists)
-            {
-                CalculateCompressionEntropy(file);
-                ExamineBytes(file);
-                CalculateEntropy();
-            }
-        }
+			if (file.Exists)
+			{
+				CompressionEntropy = CalculateCompressionRatio(file);
+				ExamineBytes(file);
+				CalculateEntropy();
+			}
+		}
 
-        public void Clear()
-        {
-            DataSampleSize = 0;
-            AbsoluteEntropy = 0;
-            CompressionEntropy = 0;
-            ShannonSpecificEntropy = 0;
-            NormalizedAbsoluteEntropy = 0;
-            NormalizedShannonSpecificEntropy = 0;
-            DistributionDict = new SortedDictionary<byte, int>();
-            ProbabilityDict = new SortedDictionary<byte, double>();
-        }
+		public void Clear()
+		{
+			DataSampleSize = 0;
+			AbsoluteEntropy = 0;
+			CompressionEntropy = 0;
+			ShannonSpecificEntropy = 0;
+			NormalizedAbsoluteEntropy = 0;
+			NormalizedShannonSpecificEntropy = 0;
+			DistributionDict = new SortedDictionary<byte, int>();
+			ProbabilityDict = new SortedDictionary<byte, double>();
+		}
 
-        private void ExamineBytes(FileInfo file)
-        {
-            byte[] bytes = File.ReadAllBytes(file.FullName);
+		private void ExamineBytes(FileInfo file)
+		{
+			DataSampleSize = (int)file.Length;
 
-            DataSampleSize = bytes.Length;
+			foreach (byte bite in FileHelper.GetBytes(file))
+			{
+				if (!DistributionDict.ContainsKey(bite))
+				{
+					DistributionDict.Add(bite, 1);
+					continue;
+				}
+				DistributionDict[bite]++;
+			}
 
-            foreach (byte bite in bytes)
-            {
-                if (!DistributionDict.ContainsKey(bite))
-                {
-                    DistributionDict.Add(bite, 1);
-                    continue;
-                }
-                DistributionDict[bite]++;
-            }
+			foreach (KeyValuePair<byte, int> entry in DistributionDict)
+			{
+				// Probability = Freq of symbol / # symbols examined thus far
+				ProbabilityDict.Add(
+					entry.Key,
+					(entry.Value / (double)DataSampleSize)
+				);
+			}
+		}
 
-            bytes = null;
+		public static double ExamineChunk(byte[] chunk)
+		{
+			if (chunk.Length < 1 || chunk == null)
+			{
+				throw new ArgumentException();
+			}
 
-            foreach (KeyValuePair<byte, int> entry in DistributionDict)
-            {
-                // Probability = Freq of symbol / # symbols examined thus far
-                ProbabilityDict.Add(
-                    entry.Key,
-                    (entry.Value / (double)DataSampleSize)
-                );
-            }
-        }
+			int chunkSize = chunk.Length;
+			Dictionary<byte, int> distribution = new Dictionary<byte, int>();
 
-        public static double ExamineChunk(byte[] chunk)
-        {
-            if (chunk.Length < 1 || chunk == null)
-            {
-                throw new ArgumentException();
-            }
+			foreach (byte bite in chunk)
+			{
+				if (!distribution.ContainsKey(bite))
+				{
+					distribution.Add(bite, 1);
+					continue;
+				}
+				distribution[bite]++;
+			}
 
-            int chunkSize = chunk.Length;
-            Dictionary<byte, int> distribution = new Dictionary<byte, int>();
+			double value = 0;
+			double result = 0;
+			foreach (KeyValuePair<byte, int> entry in distribution)
+			{
+				value = (entry.Value / (double)chunkSize);
+				result += (value * Math.Log(value, 2)) * -1;
+			}
 
-            foreach (byte bite in chunk)
-            {
-                if (!distribution.ContainsKey(bite))
-                {
-                    distribution.Add(bite, 1);
-                    continue;
-                }
-                distribution[bite]++;
-            }
+			distribution.Clear();
+			distribution = null;
 
-            double value = 0;
-            double result = 0;
-            foreach (KeyValuePair<byte, int> entry in distribution)
-            {
-                value = (entry.Value / (double)chunkSize);
-                result += (value * Math.Log(value, 2)) * -1;
-            }
+			return result;//(result / Math.Log(byte.MaxValue + 1, 2));
+		}
 
-            distribution.Clear();
-            distribution = null;
+		private void CalculateEntropy()
+		{
+			foreach (KeyValuePair<byte, double> entry in ProbabilityDict)
+			{
+				// Entropy = probability * Log2(1/probability) : OveralEntropy += entry.Value * Math.Log((1 / entry.Value), 2);
+				// Shannon (specific) entropy = -1*sum(probability * ln(probability))
+				ShannonSpecificEntropy += ((entry.Value * Math.Log(entry.Value, 2)) * -1);
+			}
 
-            return result;//(result / Math.Log(byte.MaxValue + 1, 2));
-        }
+			if (ShannonSpecificEntropy > 8)
+			{
+				ShannonSpecificEntropy = 8;
+			}
 
-        private void CalculateEntropy()
-        {
-            foreach (KeyValuePair<byte, double> entry in ProbabilityDict)
-            {
-                // Entropy = probability * Log2(1/probability) : OveralEntropy += entry.Value * Math.Log((1 / entry.Value), 2);
-                // Shannon (specific) entropy = -1*sum(probability * ln(probability))
-                ShannonSpecificEntropy += ((entry.Value * Math.Log(entry.Value, 2)) * -1);
-            }
+			NormalizedShannonSpecificEntropy = ShannonSpecificEntropy / Math.Log(byte.MaxValue + 1, 2);
+			AbsoluteEntropy = ShannonSpecificEntropy * DataSampleSize;
+			NormalizedAbsoluteEntropy = AbsoluteEntropy / Math.Log(byte.MaxValue + 1, 2);
+		}
 
-            if (ShannonSpecificEntropy > 8)
-            {
-                ShannonSpecificEntropy = 8;
-            }
+		private double CalculateCompressionRatio(FileInfo file)
+		{
+			string compressedFilename = Path.GetTempFileName();
 
-            NormalizedShannonSpecificEntropy = ShannonSpecificEntropy / Math.Log(byte.MaxValue + 1, 2);
-            AbsoluteEntropy = ShannonSpecificEntropy * DataSampleSize;
-            NormalizedAbsoluteEntropy = AbsoluteEntropy / Math.Log(byte.MaxValue + 1, 2);
-        }
+			using (FileStream stream = new FileStream(compressedFilename, FileMode.Open))
+			{
+				using (GZipStream gzip = new GZipStream(stream, CompressionMode.Compress))
+				{
+					gzip.Write(File.ReadAllBytes(file.FullName), 0, (int)file.Length);
+				}
+			}
 
-        private void CalculateCompressionEntropy(FileInfo file)
-        {
-            string compressedFilename = Path.GetTempFileName();
+			FileInfo compressedFI = new FileInfo(compressedFilename);
 
-            using (FileStream stream = new FileStream(compressedFilename, FileMode.Open))
-            {
-                using (GZipStream gzip = new GZipStream(stream, CompressionMode.Compress))
-                {
-                    gzip.Write(File.ReadAllBytes(file.FullName), 0, (int)file.Length);
-                }
-            }
+			double result = (double)compressedFI.Length / (double)file.Length;
+			result = result * 100;
 
-            FileInfo compressedFI = new FileInfo(compressedFilename);
+			if (result > 100)
+			{
+				result = 100;
+			}
 
-            double result = (double)compressedFI.Length / (double)file.Length;
-            result = result * 100;
+			compressedFI.Delete();
+			compressedFI = null;
 
-            if (result > 100)
-            {
-                result = 100;
-            }
+			return result;
+		}
 
-            compressedFI.Delete();
-            compressedFI = null;
+		//private static double CalculateCompressionRatio(FileInfo file)
+		//{
+		//	double compressedLength = GetCompressedFileSize(file);
+		//	double result = compressedLength / (double)file.Length;
+		//	return Math.Min(result * 100, 100);
+		//}
 
-            CompressionEntropy = result;
-        }
+		//private static double GetCompressedFileSize(FileInfo file)
+		//{
+		//	using (MemoryStream memoryStream = new MemoryStream())
+		//	{
+		//		using (DeflateStream destinationStream = new DeflateStream(memoryStream, CompressionMode.Decompress, true))
+		//		{
+		//			using (FileStream sourceStream = file.OpenRead())
+		//			{
+		//				sourceStream.CopyTo(memoryStream);
+		//			}
+		//		}
+		//		return memoryStream.Length;
+		//	}
+		//}
 
-        public double GetSymbolDistribution(byte symbol)
-        {
-            return DistributionDict[symbol];
-        }
+		public double GetSymbolDistribution(byte symbol)
+		{
+			return DistributionDict[symbol];
+		}
 
-        public double GetSymbolEntropy(byte symbol)
-        {
-            return ProbabilityDict[symbol];
-        }
-    }
+		public double GetSymbolEntropy(byte symbol)
+		{
+			return ProbabilityDict[symbol];
+		}
+	}
 }
