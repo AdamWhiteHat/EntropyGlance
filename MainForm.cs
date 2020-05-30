@@ -60,6 +60,8 @@ namespace EntropyGlance
             progressBarCompression.Value = 0;
             progressBarEntropy.Value = 0;
 
+            this.SuspendLayout();
+
             currentEntropy = new DataEntropyUTF8(file);
 
             tbShannonSpecific.Text = currentEntropy.ShannonSpecificEntropy.ToString("###0.###");
@@ -68,6 +70,8 @@ namespace EntropyGlance
 
             progressBarCompression.Value = (int)currentEntropy.CompressionEntropy;
             progressBarEntropy.Value = (int)(currentEntropy.ShannonSpecificEntropy * 10);
+
+            this.ResumeLayout();
         }
 
         private void btnByteDetails_Click(object sender, EventArgs e)
@@ -78,7 +82,7 @@ namespace EntropyGlance
                 MessageBox.Show("Can't open graph--file size must be greater than 20 chunks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             ByteDetails byteDetailsForm = new ByteDetails(currentEntropy);
             byteDetailsForm.ShowDialog();
         }
@@ -87,6 +91,20 @@ namespace EntropyGlance
         {
             FileDetails fileDetailsForm = new FileDetails(currentFile);
             fileDetailsForm.ShowDialog();
+        }
+
+        private void tbFilePath_TextChanged(object sender, EventArgs e)
+        {
+            string filename = tbFilePath.Text;
+
+            if (!string.IsNullOrWhiteSpace(filename))
+            {
+                FileInfo file = new FileInfo(filename);
+                if (file.Exists)
+                {
+                    LoadFile(file);
+                }
+            }
         }
     }
 }
