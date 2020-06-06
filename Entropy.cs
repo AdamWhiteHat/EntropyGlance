@@ -24,16 +24,34 @@ namespace EntropyGlance
         public double NormalizedShannonSpecificEntropy { get; private set; }
         public double CompressionEntropy { get; private set; }
 
+        private FileInfo _fileInfo;
+
         public DataEntropyUTF8(FileInfo file)
         {
+            _fileInfo = file;
             this.Clear();
+        }
 
-            if (file.Exists)
+        public bool CalculateEntropy()
+        {
+            bool result = false;
+
+            try
             {
-                CompressionEntropy = CalculateCompressionRatio(file);
-                ExamineBytes(file);
-                CalculateEntropy();
+                if (_fileInfo.Exists)
+                {
+                    CompressionEntropy = CalculateCompressionRatio(_fileInfo);
+                    ExamineBytes(_fileInfo);
+                    CalculateEntropy_Internal();
+                    result = true;
+                }
             }
+            catch (System.UnauthorizedAccessException)
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         public void Clear()
@@ -106,7 +124,7 @@ namespace EntropyGlance
             return result;//(result / Math.Log(byte.MaxValue + 1, 2));
         }
 
-        private void CalculateEntropy()
+        private void CalculateEntropy_Internal()
         {
             foreach (KeyValuePair<byte, double> entry in ProbabilityDict)
             {

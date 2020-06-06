@@ -64,6 +64,13 @@ namespace EntropyGlance
 
             currentEntropy = new DataEntropyUTF8(file);
 
+            if (!currentEntropy.CalculateEntropy())
+            {
+                this.ResumeLayout();
+                MessageBox.Show("File does not exist, or access to file denied.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             tbShannonSpecific.Text = currentEntropy.ShannonSpecificEntropy.ToString("###0.###");
             tbShannonNormalized.Text = currentEntropy.NormalizedShannonSpecificEntropy.ToString("###0.###");
             tbCompression.Text = currentEntropy.CompressionEntropy.ToString("##0.#");
